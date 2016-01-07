@@ -1,18 +1,20 @@
 {
   "name": "git-land",
-  "version": "2.2.0",
+  "version": "2.2.0-ff",
   "description": "Merges a pull request or topic branch via rebasing to avoid a merge commit.",
   "main": "git-land",
   "repository": {
     "type": "git",
-    "url": "git://github.com/git-land/git-land.git"
+    "url": "git://github.com/FreeFeed/git-land.git"
   },
   "keywords": [
     "git",
-    "cli"
+    "cli",
+    "FreeFeed"
   ],
   "bin": {
-    "git-land": "git-land"
+    "git-land": "git-land",
+    "git-merge-message-for": "git-merge-message-for"
   },
   "author": "Lon Ingram <lawnsea@gmail.com>",
   "contributors": [{
@@ -26,11 +28,14 @@
     }, {
       "name": "Taylor McKinney",
       "email": "taylor.mckinney@bazaarvoice.com"
+    }, {
+      "name": "Berkus",
+      "email": "berkus@gmail.com"
     }
   ],
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/git-land/git-land/issues"
+    "url": "https://github.com/FreeFeed/git-land/issues"
   },
-  "homepage": "https://github.com/git-land/git-land"
+  "homepage": "https://freefeed.net"
 }
