@@ -52,21 +52,16 @@ default.
 
 ## Installation
 
-### NPM (recommended)
-
-You can install git-land using npm install.
-```sh
-npm install --global git-land
-```
-
 ### Manual Installation
 
 Put the bash script in a folder that is in your `PATH` and make it executable.
 For example, to install it to `~/bin/`, do the following:
 
 ```sh
-curl -o ~/bin/git-land https://raw.githubusercontent.com/git-land/git-land/master/git-land
+curl -o ~/bin/git-land https://raw.githubusercontent.com/FreeFeed/git-land/master/git-land
 chmod +x ~/bin/git-land
+curl -o ~/bin/git-remote-pr-branch https://raw.githubusercontent.com/FreeFeed/git-land/master/git-remote-pr-branch
+chmod +x ~/bin/git-remote-pr-branch
 ```
 
 ## Repository setup
@@ -79,6 +74,16 @@ occurences of `origin` with the name of the git remote if necessary.
 ```sh
 git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
 ```
+
+Fish users can put this little snippet as `~/.config/fish/functions/pullify.fish`:
+
+```sh
+function pullify
+    git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
+end
+```
+
+Run `pullify` to make any repo aware of PR refs from origin.
 
 ### Configuration
 
@@ -113,6 +118,11 @@ behavior the default, set the `git-land.force-push-topic` option to `true`:
 ```sh
 git config git-land.force-push-topic true
 ```
+
+#### Branch name retrieval configuration
+
+Set `git-land.token` for private repos to be able to retrieve branch info via GitHub API.
+Set `git-land.repo` if `git remote-pr-branch` cannot figure out the remote repository user/name.
 
 ## Thanks
 
