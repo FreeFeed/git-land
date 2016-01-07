@@ -152,14 +152,14 @@ head=$(git rev-parse HEAD)
 
 # create last "merge" commit with github tag to close PR
 if [ -n "$pr" ]; then
-  branch_name=$(git remote-pr-branch $pr)
+  commit_message=$(git merge-message-for $pr $target_branch)
   if [ $? -ne 0 ]; then
-    branch_name=$merge_branch
+    exit_and_cleanup $?
   fi
-  commit_message="Merge pull-request #$pr from $branch_name to $target_branch"
 
-  if ! (git commit -n --allow-empty -m "$commit_message"$'\n\n'"[close #$pr]"); then
-      echo "Could not append commit message tag to close #$pr"
+  if ! (git commit -n --allow-empty -m "$commit_message"); then
+    echo "Could not append commit message tag to close #$pr"
+    exit_and_cleanup $?
   fi
 fi
 
