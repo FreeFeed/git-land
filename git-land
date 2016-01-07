@@ -139,17 +139,6 @@ fi
   git rebase -i $target_branch) || \
     exit_and_cleanup $? "Could not checkout or rebase $merge_branch on $target_branch"
 
-# append github tag to close PR if we can and the last commit message omits it
-if [ -n "$pr" ]; then
-  commit_message=$(git log -1 --pretty=%B)
-
-  if [[ ! $commit_message =~ \[closes?\ \#"$pr"\] ]]; then
-    if ! (git commit -n --amend -m "$commit_message"$'\n\n'"[close #$pr]"); then
-      echo "Could not append commit message tag to close #$pr"
-    fi
-  fi
-fi
-
 # optionally force push source branch to origin
 if [ "$force_push_topic" = true ]; then
   git push -f $remote $merge_branch
@@ -160,6 +149,19 @@ head=$(git rev-parse HEAD)
 (git checkout $target_branch && \
   git merge --ff-only $head) || \
     exit_and_cleanup $? "Could not fast-forward merge $merge_branch into $target_branch"
+
+# create last "merge" commit with github tag to close PR
+if [ -n "$pr" ]; then
+  branch_name=$(git remote-pr-branch $pr)
+  if [ $? -ne 0 ]; then
+    branch_name=$merge_branch
+  fi
+  commit_message="Merge $branch_name to $target_branch"
+
+  if ! (git commit -n --allow-empty -m "$commit_message"$'\n\n'"[close PR#$pr]"); then
+      echo "Could not append commit message tag to close #$pr"
+  fi
+fi
 
 git push $remote $target_branch
 
