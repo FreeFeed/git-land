@@ -156,7 +156,7 @@ if [ -n "$pr" ]; then
   if [ $? -ne 0 ]; then
     branch_name=$merge_branch
   fi
-  commit_message="Merge $branch_name to $target_branch"
+  commit_message="Merge pull-request #$pr from $branch_name to $target_branch"
 
   if ! (git commit -n --allow-empty -m "$commit_message"$'\n\n'"[close #$pr]"); then
       echo "Could not append commit message tag to close #$pr"
